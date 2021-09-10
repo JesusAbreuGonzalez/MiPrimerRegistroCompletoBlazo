@@ -11,5 +11,15 @@ namespace PrimerRegistroCompletoBlazor.DAL
     {
         public DbSet<Estudiantes> Estudiantes { get; set; }
 
+        public Contexto() { }
+        public Contexto(DbContextOptions<Contexto> options) : base(options) { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if(!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlite($"Data Source = Data\\GestionEstudiantes.db");
+            }
+        }
     }
 }
