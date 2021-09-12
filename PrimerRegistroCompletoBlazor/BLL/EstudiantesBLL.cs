@@ -11,14 +11,14 @@ namespace PrimerRegistroCompletoBlazor.BLL
 {
     public class EstudiantesBLL
     {
-        public static bool Existe(int id)
+        public static bool Existe(int id, string cedula)
         {
             Contexto contexto = new Contexto();
             bool encontrado = false;
 
             try
             {
-                encontrado = contexto.Estudiantes.Any(e => e.EstudianteId == id);
+                encontrado = contexto.Estudiantes.Any(e => e.EstudianteId == id || e.Cedula == cedula || (e.EstudianteId == id && e.Cedula == cedula));
             }
             catch (Exception)
             {
@@ -94,7 +94,7 @@ namespace PrimerRegistroCompletoBlazor.BLL
         /// <param name="Estudiante">La entidad que se desea guardar</param>
         public static bool Guardar(Estudiantes Estudiante)
         {
-            if (!Existe(Estudiante.EstudianteId))
+            if (!Existe(Estudiante.EstudianteId, Estudiante.Cedula))
                 return Insertar(Estudiante);
             else
                 return Modificar(Estudiante);
