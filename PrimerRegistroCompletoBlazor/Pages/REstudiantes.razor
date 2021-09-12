@@ -3,7 +3,8 @@
 
 @using PrimerRegistroCompletoBlazor.Models
 @using PrimerRegistroCompletoBlazor.BLL
-@*@inject IToastService toast*@
+
+@inject IToastService toast
 
 <EditForm Model="Estudiante" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
@@ -145,21 +146,26 @@
                 Nuevo();
                 if (encontrado != null)
                     this.Estudiante = encontrado;
+                else
+                    toast.ShowWarning("No se ha encontrado el id: " + Estudiante.EstudianteId);
 
             }
         }
 
         public void Guardar()
         {
-            bool guardado;
-
-            guardado = EstudiantesBLL.Guardar(Estudiante);
+            var guardado = EstudiantesBLL.Guardar(Estudiante);
 
             if (guardado)
             {
                 Nuevo();
+                toast.ShowSuccess("Se ha guardado correctamente");
             }
-            
+            else
+            {
+                toast.ShowError("No ha sido posible guardar");
+            }
+
         }
 
         public void Eliminar()
@@ -169,6 +175,12 @@
             eliminado = EstudiantesBLL.Eliminar(Estudiante.EstudianteId);
 
             if (eliminado)
+            {
                 Nuevo();
+                toast.ShowSuccess("Eliminado corectamente");
+            }
+            else
+                toast.ShowError("No fue posible eliminar");
+                
         }
     }
