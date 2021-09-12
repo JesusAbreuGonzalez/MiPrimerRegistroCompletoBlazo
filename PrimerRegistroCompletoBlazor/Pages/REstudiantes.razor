@@ -1,0 +1,173 @@
+﻿@page "/REstudiantes"
+@*@page "/REstudiantes/{REstudiantes:int}"*@
+
+@using PrimerRegistroCompletoBlazor.Models
+@using PrimerRegistroCompletoBlazor.BLL
+@*@inject IToastService toast*@
+
+<EditForm Model="Estudiante" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+    <div class="card" style="align-self:self-start">
+        <div class="card-header">
+            <h3>Registro de Estudiantes</h3>
+        </div>
+        <div class="card-body" style="align-self:self-start">
+            <form>
+                @*EstudianteId*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>ID</strong></label>
+                            <div class="input-group">
+                                <hr />
+                                <InputNumber @bind-Value="Estudiante.EstudianteId" class=" form-control col-5" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-toolbar input-group-text" @onclick="Buscar"><span class="oi oi-magnifying-glass oi-calendar"></span>Buscar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                @*Nombre*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>Nombre</strong></label>
+                            <hr />
+                            <div class="input-group">
+                                <InputText @bind-Value="Estudiante.Nombre" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                @*Telefono*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>Teléfono</strong></label>
+                            <hr />
+                            <div class="input-group">
+                                <InputText @bind-Value="Estudiante.Telefono" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                @*Cedula*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>Cédula</strong></label>
+                            <hr />
+                            <div class="input-group">
+                                <InputText @bind-Value="Estudiante.Cedula" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                @*Dirección*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>Dirección</strong></label>
+                            <hr />
+                            <div class="input-group">
+                                <InputText @bind-Value="Estudiante.Direccion" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr />
+
+                @*Fecha Nacimiento*@
+                <div class="form-row align-items-lg-start">
+                    <div class="col">
+                        <div class="form-inline">
+                            <label><strong>Fecha Nacimiento</strong></label>
+                            <hr />
+                            <div class="input-group">
+                                <InputDate @bind-Value="Estudiante.FechaNacimiento" class="form-control" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+                <br />
+               @*Botones*@
+                <div class="card-footer">
+                    <div class="form-inline text-center" display: inline-blocks>
+                        <button type="button" class="btn btn-outline-dark" @onclick="Nuevo"><span class="oi oi-file"></span>Nuevo</button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-dark" @onclick="Guardar"><span class="oi oi-hard-drive"></span>Guardar</button>
+                        &nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline-dark" @onclick="Eliminar"><span class="oi oi-delete"></span>Eliminar</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</EditForm>
+
+    @code {
+        [Parameter]
+        public int EstudianteId { get; set; }
+
+        private Estudiantes Estudiante = new Estudiantes();
+
+        protected override void OnInitialized()
+        {
+            Nuevo();
+            Buscar(); //Sólo funciona si se pasa un id por parametro
+        }
+
+        public void Nuevo()
+        {
+            Estudiante = new Estudiantes();
+        }
+
+        private void Buscar()
+        {
+            if (Estudiante.EstudianteId > 0)
+            {
+                var encontrado = EstudiantesBLL.Buscar(Estudiante.EstudianteId);
+                Nuevo();
+                if (encontrado != null)
+                    this.Estudiante = encontrado;
+
+            }
+        }
+
+        public void Guardar()
+        {
+            bool guardado;
+
+            guardado = EstudiantesBLL.Guardar(Estudiante);
+
+            if (guardado)
+            {
+                Nuevo();
+            }
+        }
+
+        public void Eliminar()
+        {
+            bool eliminado;
+
+            eliminado = EstudiantesBLL.Eliminar(Estudiante.EstudianteId);
+
+            if (eliminado)
+                Nuevo();
+        }
+    }

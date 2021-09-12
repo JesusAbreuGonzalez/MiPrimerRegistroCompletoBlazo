@@ -33,6 +33,10 @@ namespace PrimerRegistroCompletoBlazor.BLL
             return encontrado;
         }
 
+        /// <summary>
+        /// Permite insertar una entidad en la base de datos
+        /// </summary>
+        /// <param name="estudiante">La entidad que se desea guardar</param>
         public static bool Insertar(Estudiantes estudiante)
         {
             Contexto contexto = new Contexto();
@@ -57,6 +61,10 @@ namespace PrimerRegistroCompletoBlazor.BLL
             return insertado;
         }
 
+        /// <summary>
+        /// Permite insertar una entidad en la base de datos
+        /// </summary>
+        /// <param name="estudiante">La entidad que se desea guardar</param>
         public static bool Modificar(Estudiantes estudiante)
         {
             bool paso = false;
@@ -79,14 +87,23 @@ namespace PrimerRegistroCompletoBlazor.BLL
 
             return paso;
         }
-        public static bool Guardar(Estudiantes estudiante)
+
+        /// <summary>
+        /// Permite insertar una entidad en la base de datos
+        /// </summary>
+        /// <param name="Estudiante">La entidad que se desea guardar</param>
+        public static bool Guardar(Estudiantes Estudiante)
         {
-            if (!Existe(estudiante.EstudianteId))
-                return Insertar(estudiante);
+            if (!Existe(Estudiante.EstudianteId))
+                return Insertar(Estudiante);
             else
-                return Modificar(estudiante);
+                return Modificar(Estudiante);
         }
 
+        /// <summary>
+        /// Permite eliminar una entidad de la base de datos
+        /// </summary>
+        /// <param name="id">El Id de la entidad que se desea eliminar</param>
         public static bool Eliminar(int id)
         {
             bool paso = false;
@@ -115,6 +132,31 @@ namespace PrimerRegistroCompletoBlazor.BLL
             return paso;
         }
 
+        /// <summary>
+        /// Permite buscar una entidad en la base de datos
+        /// </summary>
+        /// <param name="id">El Id de la entidad que se desea buscar</param>
+        public static Estudiantes Buscar(int id)
+        {
+            var contexto = new Contexto();
+            Estudiantes estudiantes;
+
+            try
+            {
+                estudiantes = contexto.Estudiantes.Find(id);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                contexto.Dispose();
+            }
+
+            return estudiantes;
+        }
 
         public static List<Estudiantes> GetList(Expression<Func<Estudiantes, bool>> criterio)
         {
