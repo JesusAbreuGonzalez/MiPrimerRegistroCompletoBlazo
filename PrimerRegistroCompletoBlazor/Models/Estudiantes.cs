@@ -26,7 +26,7 @@ namespace PrimerRegistroCompletoBlazor.Models
         public DateTime FechaNacimiento { get; set; }
 
 
-        Estudiantes()
+        public Estudiantes()
         {
             EstudianteId = 0;
             Nombre = string.Empty;
