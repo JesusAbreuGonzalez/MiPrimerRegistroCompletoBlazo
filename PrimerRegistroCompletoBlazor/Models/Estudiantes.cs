@@ -24,5 +24,16 @@ namespace PrimerRegistroCompletoBlazor.Models
         public string Direccion { get; set; }
 
         public DateTime FechaNacimiento { get; set; }
+
+
+        Estudiantes()
+        {
+            EstudianteId = 0;
+            Nombre = string.Empty;
+            Telefono = string.Empty;
+            Cedula = string.Empty;
+            Direccion = string.Empty;
+            FechaNacimiento = DateTime.Now;
+        }
     }
 }
